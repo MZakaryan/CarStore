@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<Users>
+  <User>
+    <UserId>615b7a64-1471-470e-a1c7-adc9615febff</UserId>
+    <Login>admin</Login>
+    <Password>admin</Password>
+    <HasAdminPermission>true</HasAdminPermission>
+  </User>
+  <User>
+    <UserId>e08849af-3f59-42a1-8222-58e0180951c1</UserId>
+    <Login>client</Login>
+    <Password>client</Password>
+    <HasAdminPermission>false</HasAdminPermission>
+  </User>
+</Users>
