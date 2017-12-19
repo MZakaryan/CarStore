@@ -18,4 +18,9 @@ namespace CarStoreInfo
 
         public bool HasAdminPermission { get; set; }
     }
+
+    public class UserRegistrationInfo : UserInfo
+    {
+        public string ConfirmPassword { get; set; }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using CarStore.Controllers;
+using CarStore.Forms;
 using CarStore.Helpers;
 using CarStoreInfo;
 using System;
@@ -40,7 +41,13 @@ namespace CarStore
 
         private void btnReg_Click(object sender, EventArgs e)
         {
-
+            Visible = false;
+            FormRegistration reg = new FormRegistration();
+            reg.ShowDialog();
+            if (reg.DialogResult == DialogResult.OK)
+            {
+                Visible = true;
+            }
         }
     }
 }
