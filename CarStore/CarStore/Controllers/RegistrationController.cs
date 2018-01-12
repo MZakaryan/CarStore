@@ -18,6 +18,9 @@ namespace CarStore.Controllers
             _userAuthenticationRepository = new UserAuthenticationRepository();
         }
 
+
+
+  
         public bool Registrate(UserRegistrationInfo userRegistrationInfo)
         {
             bool isValid = ValidationHelper.IsRegFieldsCompleted(userRegistrationInfo)
