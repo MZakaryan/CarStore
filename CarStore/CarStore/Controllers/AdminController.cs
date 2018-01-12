@@ -1,9 +1,11 @@
-﻿using CarStoreInfo;
+﻿using CarStore.Forms;
+using CarStoreInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CarStore.Controllers
 {
@@ -12,10 +14,12 @@ namespace CarStore.Controllers
         public AdminController(UserInfo userInfo) : base(userInfo)
         {
         }
-
-        public override void ShowUserInterface()
+        
+        public override void ShowUserInterface(out DialogResult dialogResult)
         {
-            //TODO Load form
+            FormAdmin formAdmin = new FormAdmin();
+            formAdmin.ShowDialog();
+            dialogResult = formAdmin.DialogResult;
         }
     }
 }

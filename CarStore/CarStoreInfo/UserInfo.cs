@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarStoreInfo
 {
-    public class UserLoginInfo
+    public class UserLoginInfo : EntityBase
     {
         public string Login { get; set; }
         public string Password { get; set; }
@@ -14,8 +14,6 @@ namespace CarStoreInfo
 
     public class UserInfo : UserLoginInfo
     {
-        public Guid UserId { get; set; }
-
         public bool HasAdminPermission { get; set; }
     }
 

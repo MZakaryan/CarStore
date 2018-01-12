@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CarStore.Controllers
 {
@@ -15,6 +16,6 @@ namespace CarStore.Controllers
             this.userInfo = userInfo;
         }
 
-        public abstract void ShowUserInterface();
+        public abstract void ShowUserInterface(out DialogResult dialogResult);
     }
 }

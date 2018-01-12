@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\UserAuthenticationRepository.cs" />
+    <Compile Include="Repositories\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarStoreInfo\CarStoreInfo.csproj">

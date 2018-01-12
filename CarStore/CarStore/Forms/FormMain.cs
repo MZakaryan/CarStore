@@ -31,7 +31,12 @@ namespace CarStore
             {
                 UserController userController 
                     = _loginController.GetUserRole(userLoginInfo);
-                userController.ShowUserInterface();
+                Visible = false;
+                userController.ShowUserInterface(out DialogResult dialogResult);
+                if (dialogResult == DialogResult.OK)
+                {
+                    Visible = true;
+                }
             }
             else
             {

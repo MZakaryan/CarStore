@@ -1,6 +1,8 @@
 ﻿using CarStoreInfo;
+using CarStoreRepository.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,69 +13,102 @@ namespace CarStoreRepository
 {
     public class UserAuthenticationRepository
     {
-        private string _dbPath;
-
-        public UserAuthenticationRepository()
-        {
-            _dbPath = AppDomain.CurrentDomain.BaseDirectory + @"XML\Users.xml";
-        }
 
         public bool IsUserDataValid(UserLoginInfo userLoginInfo)
         {
-            XDocument doc = XDocument.Load(_dbPath);
-            return doc.Root.Elements().Select(x => new UserLoginInfo()
+            using (SqlConnection connection = new SqlConnection(Util.ConnectionString))
             {
-                Login = x.Element("Login").Value,
-                Password = x.Element("Password").Value
-            }).Where(u => u.Login == userLoginInfo.Login && u.Password 
-               == userLoginInfo.Password).Any();
+                string str = $"Select Login, Password FROM StoreUser " +
+                    $"WHERE Login = '{userLoginInfo.Login}' AND Password = '{userLoginInfo.Password}'";
+
+                SqlCommand command = new SqlCommand(str, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
         public UserInfo Import(UserLoginInfo userLoginInfo)
         {
-            XDocument doc = XDocument.Load(_dbPath);
-            List<UserInfo> users = doc.Root.Elements().Select(x =>
-            new UserInfo()
+            using (SqlConnection connection = new SqlConnection(Util.ConnectionString))
             {
-                Login = x.Element("Login").Value,
-                Password = x.Element("Password").Value,
-                UserId = Guid.Parse(x.Element("UserId").Value),
-                HasAdminPermission = Convert.ToBoolean(x.Element("HasAdminPermission").Value)
-            }).ToList();
+                string str = $"Select * FROM StoreUser " +
+                    $"WHERE Login = '{userLoginInfo.Login}' AND Password = '{userLoginInfo.Password}'";
 
-            return users.Where(u => u.Login == userLoginInfo.Login && u.Password 
-                   == userLoginInfo.Password).FirstOrDefault();
+                SqlCommand command = new SqlCommand(str, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    return new UserInfo()
+                    {
+                        ID = (int)reader["ID"],
+                        Login = reader["Login"].ToString(),
+                        Password = reader["Password"].ToString(),
+                        HasAdminPermission = (bool)reader["HasAdminPermission"]
+                    };
+                }
+                return null;
+            }
         }
 
         public bool LoginExists(string login)
         {
-            XDocument doc = XDocument.Load(_dbPath);
-            return doc.Root.Elements().Where(u => u.Element("Login").Value == login).Any();
+            using (SqlConnection connection = new SqlConnection(Util.ConnectionString))
+            {
+                string str = $"Select Login, Password FROM StoreUser " +
+                    $"WHERE Login = '{login}'";
+
+                SqlCommand command = new SqlCommand(str, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (reader.IsDBNull(0))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
-        public void Export(UserRegistrationInfo userRegistrationInfo)
+        public bool Export(UserRegistrationInfo userRegistrationInfo)
         {
-            XmlDocument xmlEmloyeeDoc = new XmlDocument();
-            xmlEmloyeeDoc.Load(_dbPath);
+            using (SqlConnection connection = new SqlConnection(Util.ConnectionString))
+            {
+                string sqlCommand = $"INSERT INTO StoreUser(Login, Password, HasAdminPermission) " +
+                    $"VALUES('{userRegistrationInfo.Login}','{userRegistrationInfo.Password}'," +
+                    $"'{userRegistrationInfo.HasAdminPermission}')";
 
-            XmlElement parentElement = xmlEmloyeeDoc.CreateElement("User");
+                SqlCommand command = new SqlCommand(sqlCommand, connection);
 
-            XmlElement userId = xmlEmloyeeDoc.CreateElement("UserId");
-            userId.InnerText = userRegistrationInfo.UserId.ToString();
-            XmlElement login = xmlEmloyeeDoc.CreateElement("Login");
-            login.InnerText = userRegistrationInfo.Login;
-            XmlElement password = xmlEmloyeeDoc.CreateElement("Password");
-            password.InnerText = userRegistrationInfo.Password;
-            XmlElement hasAdminPermission = xmlEmloyeeDoc.CreateElement("HasAdminPermission");
-            hasAdminPermission.InnerText = "false";
+                connection.Open();
 
-            parentElement.AppendChild(userId);
-            parentElement.AppendChild(login);
-            parentElement.AppendChild(password);
-            parentElement.AppendChild(hasAdminPermission);
+                int rowAffected = command.ExecuteNonQuery();
 
-            xmlEmloyeeDoc.DocumentElement.AppendChild(parentElement);
-            xmlEmloyeeDoc.Save(_dbPath);
+                if (rowAffected != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

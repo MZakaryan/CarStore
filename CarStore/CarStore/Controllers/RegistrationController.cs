@@ -25,9 +25,8 @@ namespace CarStore.Controllers
                 && !_userAuthenticationRepository.LoginExists(userRegistrationInfo.Login);
             if (isValid)
             {
-                userRegistrationInfo.UserId = Guid.NewGuid();
                 userRegistrationInfo.HasAdminPermission = false;
-                _userAuthenticationRepository.Export(userRegistrationInfo);
+                return _userAuthenticationRepository.Export(userRegistrationInfo);
             }
 
             return isValid;

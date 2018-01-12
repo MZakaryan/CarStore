@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CarStore.Controllers
 {
@@ -14,9 +15,10 @@ namespace CarStore.Controllers
 
         }
 
-        public override void ShowUserInterface()
+        public override void ShowUserInterface(out DialogResult dialogResult)
         {
-            //TODO form load
+            dialogResult = DialogResult.OK;
+            throw new NotImplementedException();
         }
     }
 }
