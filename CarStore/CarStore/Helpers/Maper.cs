@@ -28,7 +28,17 @@ namespace CarStore.Helpers
             };
         }
 
-
+        public static CarInfo MapingCarViewModel(CarListViewModel carListViewModel)
+        {
+            return new CarInfo()
+            {
+                ID = carListViewModel.ID,
+                Price = carListViewModel.Price,
+                ColorName = carListViewModel.ColorName,
+                //ModelId = carListViewModel.ModelName
+                IsDeleted = carListViewModel.IsDeleted
+            };
+        }
 
     }
 }

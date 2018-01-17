@@ -1,4 +1,5 @@
-﻿using CarStoreInfo;
+﻿using CarStore.Forms;
+using CarStoreInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,9 @@ namespace CarStore.Controllers
 
         public override void ShowUserInterface(out DialogResult dialogResult)
         {
-            dialogResult = DialogResult.OK;
-            throw new NotImplementedException();
+            FormClient formClient = new FormClient();
+            formClient.ShowDialog();
+            dialogResult = formClient.DialogResult;
         }
     }
 }

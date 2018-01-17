@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CarStoreInfo
 {
-    public abstract class EntityBase
+    public class ModelInfo : EntityBase
     {
-        [Browsable(false)]
-        public int ID { get; set; }
+        public string Name { get; set; }
+        public int BrandId { get; set; }
     }
 }

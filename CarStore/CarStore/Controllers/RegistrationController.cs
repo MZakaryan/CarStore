@@ -19,7 +19,6 @@ namespace CarStore.Controllers
         }
 
 
-
   
         public bool Registrate(UserRegistrationInfo userRegistrationInfo)
         {
@@ -29,9 +28,11 @@ namespace CarStore.Controllers
             if (isValid)
             {
                 userRegistrationInfo.HasAdminPermission = false;
-                return _userAuthenticationRepository.Export(userRegistrationInfo);
+                if (!_userAuthenticationRepository.Export(userRegistrationInfo))
+                {
+                    isValid = false;
+                }
             }
-
             return isValid;
         }
     }

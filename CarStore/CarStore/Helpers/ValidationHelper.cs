@@ -18,6 +18,21 @@ namespace CarStore.Helpers
                 && (!string.IsNullOrEmpty(userLoginInfo.Password));
         }
 
+        public static bool IsCarValid(CarInfo carInfo)
+        {
+            return true ? carInfo.ModelId != 0 : false;
+        }
+
+        public static bool IsModelNameValid(ModelInfo modelInfo)
+        {
+            return !string.IsNullOrEmpty(modelInfo.Name);
+        }
+
+        public static bool IsBrandNameValid(BrandInfo brandInfo)
+        {
+            return !string.IsNullOrEmpty(brandInfo.Name);
+        }
+
         public static bool IsRegFieldsCompleted(UserRegistrationInfo userRegInfo)
         {
             userRegInfo.Login = userRegInfo.Login.Trim();

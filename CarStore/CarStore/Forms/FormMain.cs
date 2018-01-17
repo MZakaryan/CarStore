@@ -32,6 +32,8 @@ namespace CarStore
                 UserController userController 
                     = _loginController.GetUserRole(userLoginInfo);
                 Visible = false;
+                txtLogin.Text = null;
+                txtPass.Text = null;
                 userController.ShowUserInterface(out DialogResult dialogResult);
                 if (dialogResult == DialogResult.OK)
                 {

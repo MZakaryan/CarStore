@@ -41,7 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrandInfo.cs" />
+    <Compile Include="CarInfo.cs" />
+    <Compile Include="CarListViewModel.cs" />
     <Compile Include="EntityBase.cs" />
+    <Compile Include="ModelInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserInfo.cs" />
   </ItemGroup>

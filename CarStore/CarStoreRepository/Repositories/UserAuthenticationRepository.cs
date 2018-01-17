@@ -1,13 +1,6 @@
 ﻿using CarStoreInfo;
 using CarStoreRepository.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace CarStoreRepository
 {
@@ -25,16 +18,17 @@ namespace CarStoreRepository
 
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    if (!reader.IsDBNull(0))
+                    while (reader.Read())
                     {
-                        return true;
+                        if (!reader.IsDBNull(0))
+                        {
+                            return true;
+                        }
                     }
+                    return false;
                 }
-                return false;
             }
         }
 
@@ -49,19 +43,20 @@ namespace CarStoreRepository
 
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    return new UserInfo()
+                    while (reader.Read())
                     {
-                        ID = (int)reader["ID"],
-                        Login = reader["Login"].ToString(),
-                        Password = reader["Password"].ToString(),
-                        HasAdminPermission = (bool)reader["HasAdminPermission"]
-                    };
+                        return new UserInfo()
+                        {
+                            ID = (int)reader["ID"],
+                            Login = reader["Login"].ToString(),
+                            Password = reader["Password"].ToString(),
+                            HasAdminPermission = (bool)reader["HasAdminPermission"]
+                        };
+                    }
+                    return null;
                 }
-                return null;
             }
         }
 
